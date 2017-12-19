@@ -1,4 +1,4 @@
-package com.asiainfo.xml;
+package com.asiainfo.parser;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

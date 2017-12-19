@@ -33,3 +33,30 @@ DOM,SAX,DOM4J,JDOM
 - 创建一个DocumentBuilderFactory的对象
 
 #### 在java程序中如何生成xml文件
+```java
+
+
+
+public class DOMTest {
+
+    public static void main(String[] args) throws Exception {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document document = db.parse(parser);
+        NodeList bookList = document.getElementsByTagName("book");
+        for (int i = 0; i < bookList.getLength(); i++) {
+            Element book = (Element) bookList.item(i);
+            NamedNodeMap attrs = book.getAttributes();
+            NodeList childNodes = book.getChildNodes();
+            for (int k = 0; k < childNodes.getLength(); k++) {
+                if (childNodes.item(k).getNodeType() == Node.ELEMENT_NODE){
+                    System.out.println(childNodes.item(k).getTextContent());
+                }
+            }
+
+        }
+    }
+}
+
+
+```
