@@ -42,7 +42,7 @@ public class SAXTest {
         return handler.getBookList();
     }
 
-    public void createXML() throws Exception {
+    private void createXML() throws Exception {
         Book b1 = new Book();
         b1.setId("1");
         b1.setName("冰与火之歌");
