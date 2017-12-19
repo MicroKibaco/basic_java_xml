@@ -1,4 +1,6 @@
-package com.asiainfo.parser;
+package com.asiainfo.test;
+
+import com.asiainfo.entity.Book;
 
 import org.jdom.Attribute;
 import org.jdom.Document;
@@ -7,9 +9,11 @@ import org.jdom.input.SAXBuilder;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JDOMTest {
+    private static ArrayList<Book> booksList = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
         // 对books进行JDOM解析
@@ -27,7 +31,8 @@ public class JDOMTest {
         List<Element> bookList = rootElement.getChildren();
         // 6.继续解析
         for (Element book : bookList) {
-            System.out.println("======开始解析第"+(bookList.indexOf(book)+1)+"书======");
+            System.out.println(" 开始解析第" + (bookList.indexOf(book) + 1) + "书======");
+            Book bookEntry = new Book();
             // 解析book的属性
             List<Attribute> attrList = book.getAttributes();
             // System.out.println("id属性值: "+ book.getAttributeValue("id"));
@@ -37,13 +42,41 @@ public class JDOMTest {
                 String attrName = attr.getName();
                 // 获取属性值
                 String attrValue = attr.getValue();
-                System.out.println("属性名: "+attrName +" ,属性值: "+attrValue);
+                System.out.println("属性名: " + attrName + " ,属性值: " + attrValue);
+                if (attrName.equals("id")) {
+                    bookEntry.setId(attrValue);
+                }
             }
-            System.out.println("======结束解析第"+(bookList.indexOf(book)+1)+"书======");
+
             List<Element> bookChildren = book.getChildren();
             for (Element bookChild : bookChildren) {
-                System.out.println("节点名: "+bookChild.getName()+", 节点值: "+bookChild.getValue());
+                System.out.println("节点名: " + bookChild.getName() + ", 节点值: " + bookChild.getValue());
+                if (bookChild.getName().equals("name")) {
+
+                    bookEntry.setName(bookChild.getValue());
+
+                } else if (bookChild.getName().equals("author")) {
+
+                    bookEntry.setAuthor(bookChild.getValue());
+
+                } else if (bookChild.getName().equals("year")) {
+
+                    bookEntry.setYear(bookChild.getValue());
+
+                } else if (bookChild.getName().equals("price")) {
+
+                    bookEntry.setPrice(bookChild.getValue());
+
+                } else if (bookChild.getName().equals("language")) {
+
+                    bookEntry.setLanguage(bookChild.getValue());
+
+                }
             }
+            System.out.println("======结束解析第" + (bookList.indexOf(book) + 1) + "书======");
+
+            booksList.add(bookEntry);
+            bookEntry = null;
         }
     }
 }
