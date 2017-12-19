@@ -5,9 +5,15 @@ import com.asiainfo.entity.Book;
 import org.jdom.Attribute;
 import org.jdom.Document;
 import org.jdom.Element;
+import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +21,41 @@ import java.util.List;
 public class JDOMTest {
     private static ArrayList<Book> booksList = new ArrayList<>();
 
+    private void createXML() throws IOException {
+        // 1.生成根节点
+        Element rss = new Element("rss");
+        // 2.为节点添加属性
+        rss.setAttribute("version","2.0");
+        // 3.生成一个document对象
+        Document document = new Document(rss);
+
+        Element channel = new Element("channel");
+        rss.addContent(channel);
+
+        Element title = new Element("title");
+        title.setText("国内最新新闻");
+        channel.addContent(title);
+
+        Format format  =Format.getCompactFormat();
+        format.setIndent("\n");
+        format.setEncoding("GBK");
+
+
+        // 4.创建outputter对象
+        XMLOutputter outputter = new XMLOutputter(format);
+
+        // 5.利用outputter将document对象转化为xml文档
+         outputter.output(document,new FileOutputStream(new File("rssnews.xml")));
+    }
+
     public static void main(String[] args) throws Exception {
+        JDOMTest test = new JDOMTest();
+     //   test.parseXML();
+        test.createXML();
+
+    }
+
+    private  void parseXML() throws JDOMException, IOException {
         // 对books进行JDOM解析
         // 准备工作
         // 1.创建一个 SAXBuilder 对象
